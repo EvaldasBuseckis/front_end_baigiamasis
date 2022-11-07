@@ -10,14 +10,14 @@ document
 
 function submitForm(e) {
   e.preventDefault();
-  const title = e.target.elements.title.value;
+  const type = e.target.elements.type.value;
   const content = e.target.elements.content.value;
-  const datete = e.target.elements.endDate.value;
+  const date = e.target.elements.endDate.value;
 
   const post = {
-    Title: title,
+    Type: type,
     Content: content,
-    endDate: datete,
+    endDate: date,
   };
 
   console.log("1");
@@ -54,9 +54,9 @@ function createPostsHTML(data) {
     containerEl.style.padding = "5px";
     containerEl.style.margin = "5px";
 
-    const titleEl = document.createElement("h2");
-    titleEl.textContent = post.Title;
-    containerEl.append(titleEl);
+    const typeEl = document.createElement("h2");
+    typeEl.textContent = post.Type;
+    containerEl.append(typeEl);
 
     const dateEl = document.createElement("p");
     dateEl.textContent = post.endDate;
@@ -89,7 +89,7 @@ function openEditModal(e) {
   console.log(e.target.parentElement.id);
 
   const idValue = e.target.parentElement.id.substring(8);
-  const titleValue = document.querySelector(
+  const typeValue = document.querySelector(
     `#${e.target.parentElement.id} h2`
   ).textContent;
   const contentValue = document.querySelector(
@@ -99,10 +99,10 @@ function openEditModal(e) {
     `#${e.target.parentElement.id} p:nth-of-type(3)`
   ).textContent;
 
-  console.log(idValue, titleValue, contentValue, dateValue);
+  console.log(idValue, typeValue, contentValue, dateValue);
 
   document.querySelector(".editPostForm").elements.id.value = idValue;
-  document.querySelector(".editPostForm").elements.title.value = titleValue;
+  document.querySelector(".editPostForm").elements.type.value = typeValue;
   document.querySelector(".editPostForm").elements.content.value = contentValue;
   document.querySelector(".editPostForm").elements.endDate.value = dateValue;
 }
@@ -129,13 +129,13 @@ document
 
 function submitEditForm(e) {
   e.preventDefault();
-  const title = e.target.elements.title.value;
+  const type = e.target.elements.type.value;
   const content = e.target.elements.content.value;
   const id = e.target.elements.id.value;
   const date = e.target.elements.endDate.value;
 
   const post = {
-    Title: title,
+    Type: type,
     Content: content,
     endDate: date,
   };
