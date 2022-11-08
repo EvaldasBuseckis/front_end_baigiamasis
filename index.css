@@ -5,7 +5,7 @@ body {
   align-items: center;
   min-height: 700px;
 }
-.child {
+.box {
   height: 200px;
   width: 400px;
   margin-top: 50px;
@@ -16,7 +16,7 @@ body {
   border-radius: 15px;
   border-style: double;
 }
-.button {
+#button {
   margin: 85px;
   justify-content: center;
   align-items: center;
