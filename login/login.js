@@ -28,6 +28,7 @@ async function loginForm(e) {
     console.log(i);
     if (peopleArray[i].Name === nameEl.value) {
       location.href = "/app/app.html";
+      localStorage.setItem("email", peopleArray[i].Email);
       console.log("ar veikiam??");
     }
   }

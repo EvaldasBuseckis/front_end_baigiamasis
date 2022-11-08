@@ -13,11 +13,14 @@ function submitForm(e) {
   const type = e.target.elements.type.value;
   const content = e.target.elements.content.value;
   const date = e.target.elements.endDate.value;
+  const email = localStorage.getItem("email");
+  console.log(email);
 
   const post = {
     Type: type,
     Content: content,
     endDate: date,
+    Email: email,
   };
 
   console.log("1");
@@ -39,13 +42,22 @@ function getPosts() {
   fetch("https://testapi.io/api/Evaldas/resource/toDoList")
     .then((res) => res.json())
     .then((data) => {
-      createPostsHTML(data.data);
+      for (i = 0; i <= data.data.length; i++) {
+        console.log(data.data[i]);
+        if (data.data[i].Email === localStorage.getItem("email")) {
+          createPostsHTML([data.data[i]]);
+          console.log("veik");
+        }
+      }
+      // createPostsHTML([data.data[0]]);
+      console.log([data.data[0]]);
+      console.log(data.data[0].Email);
     })
     .catch((error) => console.log(error));
 }
 
 function createPostsHTML(data) {
-  console.log(data);
+  // console.log(data);
 
   data.forEach((post) => {
     const containerEl = document.createElement("div");
