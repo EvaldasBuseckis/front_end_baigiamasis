@@ -1,6 +1,8 @@
 document.querySelector("form").addEventListener("submit", registerForm);
 
-function registerForm(e) {
+const emailEl = document.querySelector(".email");
+
+async function registerForm(e) {
   e.preventDefault();
   const name = e.target.elements.name.value;
   const surname = e.target.elements.surname.value;
@@ -12,16 +14,38 @@ function registerForm(e) {
     Email: email,
   };
 
-  console.log("1");
-  fetch("https://testapi.io/api/Evaldas/resource/userInformation", {
-    method: "POST",
-    headers: { "Content-type": "application/json" },
-    body: JSON.stringify(post),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data);
-      location.href = "/login/login.html";
+  const result = await fetch(
+    `https://testapi.io/api/Evaldas/resource/userInformation`
+  );
+
+  const people = await result.json();
+
+  const peopleArray = people.data;
+
+  function forLooper() {
+    for (i = 0; i <= 3; i++) {
+      console.log(i);
+      if (peopleArray[i].Email === emailEl.value) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+  if (forLooper() === true) {
+    alert("User with this email already exists.");
+  } else {
+    console.log("1");
+    fetch("https://testapi.io/api/Evaldas/resource/userInformation", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(post),
     })
-    .catch((error) => console.log(error));
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        location.href = "/login/login.html";
+      })
+      .catch((error) => console.log(error));
+  }
 }

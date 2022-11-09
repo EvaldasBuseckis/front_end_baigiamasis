@@ -1,3 +1,9 @@
+const displayName = document.querySelector("h2");
+displayName.textContent = `Hello, ${localStorage.getItem(
+  "name"
+)} ${localStorage.getItem("surname")}`;
+console.log(localStorage.getItem("ame"));
+
 // Get the modal
 var modal = document.getElementById("myModal");
 
@@ -43,10 +49,10 @@ function getPosts() {
     .then((res) => res.json())
     .then((data) => {
       for (i = 0; i <= data.data.length; i++) {
-        console.log(data.data[i]);
+        // console.log(data.data[i]);
         if (data.data[i].Email === localStorage.getItem("email")) {
           createPostsHTML([data.data[i]]);
-          console.log("veik");
+          // console.log("veik");
         }
       }
       // createPostsHTML([data.data[0]]);
@@ -122,25 +128,29 @@ function createPostsHTML(data) {
 
 function openEditModal(e) {
   modal.style.display = "block";
-  console.log(e.target.parentElement.id);
+  // console.log(e.target.parentElement.id);
 
   const idValue = e.target.parentElement.id.substring(8);
   const typeValue = document.querySelector(
-    `#${e.target.parentElement.id} h2`
+    `#${e.target.parentElement.id} td`
   ).textContent;
   const contentValue = document.querySelector(
-    `#${e.target.parentElement.id} p:nth-of-type(2)`
+    `#${e.target.parentElement.id} td:nth-of-type(4)`
   ).textContent;
   const dateValue = document.querySelector(
-    `#${e.target.parentElement.id} p:nth-of-type(3)`
+    `#${e.target.parentElement.id} td:nth-of-type(2)`
+  ).textContent;
+  const inputDate = document.querySelector(
+    `#${e.target.parentElement.id} td:nth-of-type(3)`
   ).textContent;
 
-  console.log(idValue, typeValue, contentValue, dateValue);
+  console.log(contentValue, idValue, typeValue, dateValue, inputDate);
 
   document.querySelector(".editPostForm").elements.id.value = idValue;
   document.querySelector(".editPostForm").elements.type.value = typeValue;
   document.querySelector(".editPostForm").elements.content.value = contentValue;
   document.querySelector(".editPostForm").elements.endDate.value = dateValue;
+  // document.querySelector(".editPostForm").elements.endDate.value = updatedEl;
 }
 
 function deletePost(e) {
@@ -169,11 +179,13 @@ function submitEditForm(e) {
   const content = e.target.elements.content.value;
   const id = e.target.elements.id.value;
   const date = e.target.elements.endDate.value;
+  const email = localStorage.getItem("email");
 
   const post = {
     Type: type,
     Content: content,
     endDate: date,
+    Email: email,
   };
 
   fetch(`https://testapi.io/api/Evaldas/resource/toDoList/${id}`, {
@@ -185,6 +197,7 @@ function submitEditForm(e) {
     .then((data) => {
       console.log(data);
       modal.style.display = "none";
+      location.href = "/app/app.html";
     })
     .catch((error) => console.log(error));
 }

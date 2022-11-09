@@ -26,9 +26,14 @@ async function loginForm(e) {
 
   for (i = 0; i <= 3; i++) {
     console.log(i);
-    if (peopleArray[i].Name === nameEl.value) {
+    if (
+      peopleArray[i].Name === nameEl.value &&
+      peopleArray[i].Surname === surnameEl.value
+    ) {
       location.href = "/app/app.html";
       localStorage.setItem("email", peopleArray[i].Email);
+      localStorage.setItem("name", peopleArray[i].Name);
+      localStorage.setItem("surname", peopleArray[i].Surname);
       console.log("ar veikiam??");
     }
   }
