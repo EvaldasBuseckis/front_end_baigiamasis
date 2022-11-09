@@ -58,10 +58,6 @@ function getPosts() {
 
 function createPostsHTML(data) {
   // console.log(data);
-  // const legendTable = document.createElement("table");
-  // const legendType = document.createElement("th");
-  // legendType.textContent = "Type";
-  // legendTable.append(legendType);
 
   data.forEach((post) => {
     const containerEl = document.createElement("table");

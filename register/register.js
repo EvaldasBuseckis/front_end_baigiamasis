@@ -21,6 +21,7 @@ function registerForm(e) {
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
+      location.href = "/login/login.html";
     })
     .catch((error) => console.log(error));
 }
