@@ -13,11 +13,14 @@ function submitForm(e) {
   const type = e.target.elements.type.value;
   const content = e.target.elements.content.value;
   const date = e.target.elements.endDate.value;
+  const email = localStorage.getItem("email");
+  console.log(email);
 
   const post = {
     Type: type,
     Content: content,
     endDate: date,
+    Email: email,
   };
 
   console.log("1");
@@ -39,44 +42,81 @@ function getPosts() {
   fetch("https://testapi.io/api/Evaldas/resource/toDoList")
     .then((res) => res.json())
     .then((data) => {
-      createPostsHTML(data.data);
+      for (i = 0; i <= data.data.length; i++) {
+        console.log(data.data[i]);
+        if (data.data[i].Email === localStorage.getItem("email")) {
+          createPostsHTML([data.data[i]]);
+          console.log("veik");
+        }
+      }
+      // createPostsHTML([data.data[0]]);
+      console.log([data.data[0]]);
+      console.log(data.data[0].Email);
     })
     .catch((error) => console.log(error));
 }
 
 function createPostsHTML(data) {
-  console.log(data);
+  // console.log(data);
+  // const legendTable = document.createElement("table");
+  // const legendType = document.createElement("th");
+  // legendType.textContent = "Type";
+  // legendTable.append(legendType);
 
   data.forEach((post) => {
-    const containerEl = document.createElement("div");
+    const containerEl = document.createElement("table");
     containerEl.id = "post_id_" + post.id;
     containerEl.style.border = "1px solid black";
     containerEl.style.padding = "5px";
-    containerEl.style.margin = "5px";
+    containerEl.style.height = "75px";
+    containerEl.style.width = "1000px";
+    containerEl.style.borderRadius = "5px";
+    containerEl.style.backgroundColor = "#5996e3";
 
-    const typeEl = document.createElement("h2");
+    const typeEl = document.createElement("td");
+    typeEl.style.width = "100px";
+    typeEl.style.display = "block";
+    typeEl.style.overflowY = "auto";
+    typeEl.style.whiteSpace = "nowrap";
+    typeEl.style.borderRadius = "5px";
+    typeEl.style.backgroundColor = "white";
     typeEl.textContent = post.Type;
     containerEl.append(typeEl);
 
-    const dateEl = document.createElement("p");
+    const dateEl = document.createElement("td");
+    dateEl.style.width = "100px";
+    dateEl.style.borderRadius = "5px";
+    dateEl.style.backgroundColor = "white";
     dateEl.textContent = post.endDate;
     containerEl.append(dateEl);
 
-    const updatedEl = document.createElement("p");
+    const updatedEl = document.createElement("td");
+    updatedEl.style.width = "250px";
+    updatedEl.style.borderRadius = "5px";
+    updatedEl.style.backgroundColor = "white";
     updatedEl.textContent = post.updatedAt;
     containerEl.append(updatedEl);
 
-    const contentEl = document.createElement("p");
+    const contentEl = document.createElement("td");
+    contentEl.style.display = "block";
+    contentEl.style.overflowY = "auto";
+    contentEl.style.whiteSpace = "nowrap";
+    contentEl.style.width = "100px";
+    contentEl.style.borderRadius = "5px";
+    contentEl.style.backgroundColor = "white";
     contentEl.textContent = post.Content;
     containerEl.append(contentEl);
 
     const editButtonEl = document.createElement("button");
     editButtonEl.addEventListener("click", openEditModal);
+    editButtonEl.style.margin = "5px";
+    editButtonEl.style.borderRadius = "5px";
     editButtonEl.textContent = "Edit";
     containerEl.append(editButtonEl);
 
     const deleteButtonEl = document.createElement("button");
     deleteButtonEl.addEventListener("click", deletePost);
+    deleteButtonEl.style.borderRadius = "5px";
     deleteButtonEl.textContent = "Delete";
     containerEl.append(deleteButtonEl);
 
