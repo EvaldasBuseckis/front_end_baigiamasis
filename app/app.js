@@ -71,7 +71,7 @@ function createPostsHTML(data) {
     containerEl.style.border = "1px solid black";
     containerEl.style.padding = "5px";
     containerEl.style.height = "75px";
-    containerEl.style.width = "1000px";
+    containerEl.style.width = "870px";
     containerEl.style.borderRadius = "5px";
     containerEl.style.backgroundColor = "#5996e3";
 
@@ -127,7 +127,7 @@ function createPostsHTML(data) {
 }
 
 function openEditModal(e) {
-  modal.style.display = "block";
+  modal.style.display = "flex";
   // console.log(e.target.parentElement.id);
 
   const idValue = e.target.parentElement.id.substring(8);
