@@ -22,13 +22,15 @@ async function registerForm(e) {
 
   const peopleArray = people.data;
 
+  console.log(forLooper());
+
   function forLooper() {
-    for (i = 0; i <= 3; i++) {
+    for (i = 0; i <= Object.keys(peopleArray).length; i++) {
       console.log(i);
       if (peopleArray[i].Email === emailEl.value) {
         return true;
       } else {
-        return false;
+        continue;
       }
     }
   }
@@ -49,3 +51,6 @@ async function registerForm(e) {
       .catch((error) => console.log(error));
   }
 }
+
+// console.log(Object.values(peopleArray)["Email"]);
+// }
