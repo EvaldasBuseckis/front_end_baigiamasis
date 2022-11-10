@@ -2,7 +2,10 @@ const displayName = document.querySelector("h2");
 displayName.textContent = `Hello, ${localStorage.getItem(
   "name"
 )} ${localStorage.getItem("surname")}`;
-console.log(localStorage.getItem("ame"));
+
+document.querySelector(".logOut").addEventListener("click", () => {
+  location.href = "/index.html";
+});
 
 // Get the modal
 var modal = document.getElementById("myModal");
@@ -49,78 +52,119 @@ function getPosts() {
     .then((res) => res.json())
     .then((data) => {
       for (i = 0; i <= data.data.length; i++) {
-        // console.log(data.data[i]);
         if (data.data[i].Email === localStorage.getItem("email")) {
           createPostsHTML([data.data[i]]);
-          // console.log("veik");
         }
       }
-      // createPostsHTML([data.data[0]]);
-      console.log([data.data[0]]);
-      console.log(data.data[0].Email);
     })
     .catch((error) => console.log(error));
 }
 
 function createPostsHTML(data) {
-  // console.log(data);
-
   data.forEach((post) => {
     const containerEl = document.createElement("table");
     containerEl.id = "post_id_" + post.id;
     containerEl.style.border = "1px solid black";
     containerEl.style.padding = "5px";
-    containerEl.style.height = "75px";
-    containerEl.style.width = "870px";
+    containerEl.style.height = "200px";
+    containerEl.style.width = "fit-content";
     containerEl.style.borderRadius = "5px";
     containerEl.style.backgroundColor = "#5996e3";
 
+    const typeLabel = document.createElement("p");
+    typeLabel.textContent = "Type";
+
+    const contentLabel = document.createElement("p");
+    contentLabel.textContent = "Content";
+
+    const updateDateLabel = document.createElement("p");
+    updateDateLabel.textContent = "Update date";
+
+    const endDateLabel = document.createElement("p");
+    endDateLabel.textContent = "End date";
+
     const typeEl = document.createElement("td");
-    typeEl.style.width = "100px";
+    typeEl.className = ".titleClass";
+    typeEl.style.width = "170px";
+    typeEl.style.height = "50px";
     typeEl.style.display = "block";
-    typeEl.style.overflowY = "auto";
+    typeEl.style.overflow = "auto";
     typeEl.style.whiteSpace = "nowrap";
     typeEl.style.borderRadius = "5px";
     typeEl.style.backgroundColor = "white";
     typeEl.textContent = post.Type;
-    containerEl.append(typeEl);
+    // containerEl.append(typeEl);
+
+    const typeDivEl = document.createElement("div");
+    typeDivEl.append(typeLabel);
+    typeDivEl.append(typeEl);
+    containerEl.append(typeDivEl);
+
+    const contentEl = document.createElement("td");
+    contentEl.className = "contentClass";
+    contentEl.style.display = "inline-block";
+    contentEl.style.overflowX = "hidden";
+    contentEl.style.overflowY = "scroll";
+    contentEl.style.whiteSpace = "normal";
+    contentEl.style.width = "450px";
+    contentEl.style.height = "120px";
+    contentEl.style.borderRadius = "5px";
+    contentEl.style.backgroundColor = "white";
+    contentEl.textContent = post.Content;
+    // containerEl.append(contentEl);
+
+    const contentDivEl = document.createElement("div");
+    contentDivEl.append(contentLabel);
+    contentDivEl.append(contentEl);
+    containerEl.append(contentDivEl);
+
+    const updatedEl = document.createElement("td");
+    updatedEl.className = "updatedClass";
+    updatedEl.style.width = "80px";
+    updatedEl.style.borderRadius = "5px";
+    updatedEl.style.backgroundColor = "white";
+    updatedEl.textContent = post.updatedAt.slice(0, 10);
+    containerEl.append(updatedEl);
+
+    const updateDateDivEl = document.createElement("div");
+    updateDateDivEl.append(updateDateLabel);
+    updateDateDivEl.append(updatedEl);
+    containerEl.append(updateDateDivEl);
 
     const dateEl = document.createElement("td");
-    dateEl.style.width = "100px";
+    dateEl.className = "dateClass";
+    dateEl.style.width = "80px";
     dateEl.style.borderRadius = "5px";
     dateEl.style.backgroundColor = "white";
     dateEl.textContent = post.endDate;
     containerEl.append(dateEl);
 
-    const updatedEl = document.createElement("td");
-    updatedEl.style.width = "250px";
-    updatedEl.style.borderRadius = "5px";
-    updatedEl.style.backgroundColor = "white";
-    updatedEl.textContent = post.updatedAt;
-    containerEl.append(updatedEl);
-
-    const contentEl = document.createElement("td");
-    contentEl.style.display = "block";
-    contentEl.style.overflowY = "auto";
-    contentEl.style.whiteSpace = "nowrap";
-    contentEl.style.width = "100px";
-    contentEl.style.borderRadius = "5px";
-    contentEl.style.backgroundColor = "white";
-    contentEl.textContent = post.Content;
-    containerEl.append(contentEl);
+    const dateDivEl = document.createElement("div");
+    dateDivEl.append(endDateLabel);
+    dateDivEl.append(dateEl);
+    containerEl.append(dateDivEl);
 
     const editButtonEl = document.createElement("button");
+    editButtonEl.className = "editDeleteButton";
     editButtonEl.addEventListener("click", openEditModal);
-    editButtonEl.style.margin = "5px";
+    // editButtonEl.style.marginBottom = "5px";
+    editButtonEl.style.width = "60px";
     editButtonEl.style.borderRadius = "5px";
     editButtonEl.textContent = "Edit";
     containerEl.append(editButtonEl);
 
     const deleteButtonEl = document.createElement("button");
+    deleteButtonEl.className = "editDeleteButton";
     deleteButtonEl.addEventListener("click", deletePost);
     deleteButtonEl.style.borderRadius = "5px";
+    deleteButtonEl.style.width = "60px";
     deleteButtonEl.textContent = "Delete";
     containerEl.append(deleteButtonEl);
+
+    // const buttonsDivEl = document.createElement("div");
+    // buttonsDivEl.append(editButtonEl);
+    // buttonsDivEl.append(deleteButtonEl);
+    // containerEl.append(buttonsDivEl);
 
     document.querySelector(".posts").append(containerEl);
   });
@@ -128,29 +172,33 @@ function createPostsHTML(data) {
 
 function openEditModal(e) {
   modal.style.display = "flex";
-  // console.log(e.target.parentElement.id);
 
   const idValue = e.target.parentElement.id.substring(8);
+
   const typeValue = document.querySelector(
     `#${e.target.parentElement.id} td`
   ).textContent;
+  console.log(typeValue);
+
   const contentValue = document.querySelector(
-    `#${e.target.parentElement.id} td:nth-of-type(4)`
-  ).textContent;
-  const dateValue = document.querySelector(
-    `#${e.target.parentElement.id} td:nth-of-type(2)`
-  ).textContent;
-  const inputDate = document.querySelector(
-    `#${e.target.parentElement.id} td:nth-of-type(3)`
+    `#${e.target.parentElement.id} .contentClass`
   ).textContent;
 
-  console.log(contentValue, idValue, typeValue, dateValue, inputDate);
+  console.log(contentValue);
+
+  const dateValue = document.querySelector(
+    `#${e.target.parentElement.id} .updatedClass`
+  ).textContent;
+
+  console.log(dateValue);
+  const inputDate = document.querySelector(
+    `#${e.target.parentElement.id} .dateClass`
+  ).textContent;
 
   document.querySelector(".editPostForm").elements.id.value = idValue;
   document.querySelector(".editPostForm").elements.type.value = typeValue;
   document.querySelector(".editPostForm").elements.content.value = contentValue;
   document.querySelector(".editPostForm").elements.endDate.value = dateValue;
-  // document.querySelector(".editPostForm").elements.endDate.value = updatedEl;
 }
 
 function deletePost(e) {
