@@ -15,7 +15,7 @@ async function loginForm(e) {
   console.log("1");
 
   const result = await fetch(
-    `https://testapi.io/api/Evaldas/resource/userInformation`
+    `https://testapi.io/api/Aurimaso/resource/userInformation`
   );
 
   const people = await result.json();
@@ -30,7 +30,7 @@ async function loginForm(e) {
       peopleArray[i].Name === nameEl.value &&
       peopleArray[i].Surname === surnameEl.value
     ) {
-      location.href = "/app/app.html";
+      location.href = "/front_end_baigiamasis/app/app.html";
       localStorage.setItem("email", peopleArray[i].Email);
       localStorage.setItem("name", peopleArray[i].Name);
       localStorage.setItem("surname", peopleArray[i].Surname);

@@ -4,7 +4,7 @@ displayName.textContent = `Hello, ${localStorage.getItem(
 )} ${localStorage.getItem("surname")}`;
 
 document.querySelector(".logOut").addEventListener("click", () => {
-  location.href = "/index.html";
+  location.href = "/front_end_baigiamasis/index.html";
 });
 
 // Get the modal
@@ -33,7 +33,7 @@ function submitForm(e) {
   };
 
   console.log("1");
-  fetch("https://testapi.io/api/Evaldas/resource/toDoList", {
+  fetch("https://testapi.io/api/Aurimaso/resource/toDoList", {
     method: "POST",
     headers: { "Content-type": "application/json" },
     body: JSON.stringify(post),
@@ -48,7 +48,7 @@ function submitForm(e) {
 }
 
 function getPosts() {
-  fetch("https://testapi.io/api/Evaldas/resource/toDoList")
+  fetch("https://testapi.io/api/Aurimaso/resource/toDoList")
     .then((res) => res.json())
     .then((data) => {
       for (i = 0; i <= data.data.length; i++) {
@@ -204,7 +204,7 @@ function openEditModal(e) {
 function deletePost(e) {
   const idValue = e.target.parentElement.id.substring(8);
 
-  fetch(`https://testapi.io/api/Evaldas/resource/toDoList/${idValue}`, {
+  fetch(`https://testapi.io/api/Aurimaso/resource/toDoList/${idValue}`, {
     method: "DELETE",
   })
     .then((res) => {
@@ -236,7 +236,7 @@ function submitEditForm(e) {
     Email: email,
   };
 
-  fetch(`https://testapi.io/api/Evaldas/resource/toDoList/${id}`, {
+  fetch(`https://testapi.io/api/Aurimaso/resource/toDoList/${id}`, {
     method: "PUT",
     headers: { "Content-type": "application/json" },
     body: JSON.stringify(post),
@@ -245,7 +245,7 @@ function submitEditForm(e) {
     .then((data) => {
       console.log(data);
       modal.style.display = "none";
-      location.href = "/app/app.html";
+      location.href = "/front_end_baigiamasis/app/app.html";
     })
     .catch((error) => console.log(error));
 }
